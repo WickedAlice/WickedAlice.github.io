@@ -1,4 +1,4 @@
-#wraper{
+#wrapper {
 	left: 50%; /* Отступ в процентах от левого края окна */
 	height: 100px;
 	width: 600px;
@@ -8,7 +8,7 @@
 	display: inline-block;
 }
 
-.info{
+.info {
 	width: 300px;
 }
 
@@ -16,3 +16,4 @@ form {
 	display: inline-block;
 	width: 250px;
 }
+

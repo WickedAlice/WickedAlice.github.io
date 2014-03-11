@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title> </title>
-   	<link rel="stylesheet" type="text/css" href="ajax.css">
-		<script src="ajax.js" ></script>
-	</head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <title> </title>
+        <link rel="stylesheet" type="text/css" href="ajax.css">
+			<script src="ajax.js" ></script>
+    </head>
 	<body>
-		<div id="wraper">
-			<form method="post" onsubmit="DisplayGitHubUserData(document.getElementById('a').value); return false;">
+		<div id="wrapper">
+			<form method="post">
 				Поиск юзера:<br>
-				<TEXTAREA id='a' COLS=30 ROWS=1>gurugray</TEXTAREA>
-				<INPUT TYPE = SUBMIT>
+				<TEXTAREA COLS=30 ROWS=1 id='a' >gurugray</TEXTAREA>
+				<INPUT TYPE=SUBMIT id="search_button">
 			</form> 
 			<div id="result"></div>
 		</div>

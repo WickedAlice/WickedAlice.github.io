@@ -2,29 +2,43 @@
 //2.Если нет, то достать, распарсить и положить в кэш.
 //3.Отобразить
 
-function DisplayGitHubUserData(username) {
+window.onload = function() {
+	var elem = document.getElementById('search_button');
+	elem.addEventListener( "click", function(e){
+		DisplayGitHubUserData();
+		e.preventDefault();
+		return false;
+	});
+}
 
+function DisplayGitHubUserData() {
+	username = document.getElementById('a').value;
 	if (!document.getElementById('sp_email')) {
 		createTags();
 	}
+	var exists;
+	if ( exists = document.getElementById('not_exists')) {
+		document.getElementById('result').removeChild(exists);
+	}
+
+	deleteOldUserFields();
 
 	var infoFields = getUserFieldsFromCache('info_' + username);
-
   	if(!infoFields) {
-  		xmlRequest('https://api.github.com/users/' + username, function(responseText) {
+  			xmlRequest('https://api.github.com/users/' + username, function(responseText) {
 			infoFields = parseInfo(responseText);
 			displayInfoFields(infoFields);		
 			storeFieldsToCache("info_" + username, infoFields);
   		});
+			
 	}
 
   	else {
   	 	displayInfoFields(infoFields);		
   	};
 
-  	var reposFields;
-  	reposFields = getUserFieldsFromCache('repos_' + username);
-  	if(!reposFields){
+  	var reposFields = getUserFieldsFromCache('repos_' + username);
+  	if(!reposFields) {
   		reposFields = {};
   		xmlRequest('https://api.github.com/users/' + username + '/repos', function(responseText) {
 			reposFields['repos'] = parseRepos(responseText);
@@ -58,32 +72,36 @@ function createTags() {
 		document.getElementById('result').appendChild(divRepo);
 }	
 	
-function getUserFieldsFromCache(fieldsKey) {
-	var userFields =  JSON.parse(localStorage.getItem(fieldsKey));
-
-	if (!userFields) {
-		return false;	
-	} 
-	var now = new Date();
-	var today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds()).valueOf();
-	var dm = today - userFields['timeout'];
-	if ( dm < 86400000) { //если не протух
-		userFields['timeout'] = undefined; 
-		return userFields;
-	} else {
-		localStorage.removeItem(fieldsKey);
-		return false;
+function deleteOldUserFields() {
+	var today = Date.now();
+	var dm, userFields;
+	for (var fieldsKey in localStorage) {
+		userFields =  JSON.parse(localStorage.getItem(fieldsKey));
+		dm = today - userFields['timeout'];
+		if ( dm < 86400000) { //если не протух
+			userFields['timeout'] = undefined; 
+		} else {
+			localStorage.removeItem(fieldsKey);
+		}	
 	}
 }
 
+function getUserFieldsFromCache(fieldsKey) {
+	var userFields =  JSON.parse(localStorage.getItem(fieldsKey));
+	if (!userFields) {
+		return false;	
+	} 
+	return userFields;
+}
+
 function storeFieldsToCache(fieldsKey, userFields) {
-	var now = new Date();
-	var today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds()).valueOf();
+	var today = Date.now();
 	userFields['timeout'] = today;
-		localStorage.setItem(fieldsKey, JSON.stringify(userFields)); 
+	localStorage.setItem(fieldsKey, JSON.stringify(userFields)); 
 }
 
 function parseInfo(respond) {
+
 	var tmp;
 	var infoFields = {};
 	var fieldsList = {'login':{cutFromEnd:2,cutFromBegin:9},
@@ -91,29 +109,29 @@ function parseInfo(respond) {
 							 'followers':{cutFromEnd:1,cutFromBegin:12}};
 
 	for(var fieldName in fieldsList) {
-		var exp = new RegExp (fieldName + "\":.*",'ig');
-  		var field = respond.match(exp);
-		if(!field) { tmp = "no " + fieldName; }	
+		var field = JSON.parse(respond);
+		if((!field[fieldName]) ) {
+			infoFields[fieldName] = 'No';		
+		}
 		else {
-			tmp = field[0].slice(fieldsList[fieldName].cutFromBegin);
-			var len = tmp.length - fieldsList[fieldName].cutFromEnd;
-			tmp = tmp.slice(0, len);
-	  	}
-		infoFields[fieldName] = tmp;
+			infoFields[fieldName] = field[fieldName];
+		}
    }
 
    return infoFields;
 }
 
-function parseRepos(respond){
-	var i;
-	var repos = respond.match(/"name":.*/ig);
-	if(!repos) { return repos; }	
-	for (i = 0; i < repos.length ; i++) {
-		repos[i] = repos[i].slice(9);
-		repos[i] = repos[i].slice(0, repos[i].length-2);
-	}	
-	return repos;
+function parseRepos(respond) {
+	var i = 0;
+	var repoList = [];
+	var repos = JSON.parse(respond);
+	if(!repos) { return; }	
+
+	for ( key in repos ) {
+		repoList[i++] = repos[key].name;
+	}
+
+	return repoList;
 }
 
 function	displayReposFields(reposFields) {
@@ -141,8 +159,6 @@ function	displayInfoFields(infoFields) {
    }
 }	
 
-
-
 //AJAX
 function getXmlHttp(){
   var xmlhttp;
@@ -166,6 +182,19 @@ function xmlRequest(url, callback) {
 	xmlhttp.open('GET', url, true);
 	xmlhttp.onreadystatechange = function() {
   		if (xmlhttp.readyState == 4) {
+   		if (xmlhttp.status == 404 && ( !document.getElementById('not_exists'))) {
+				var res;
+				if ( res = document.getElementById('sp_email')) {
+					var r = document.getElementById('result');
+					while (r.firstChild) {
+						r.removeChild(r.firstChild);
+					}
+				}
+				var div = document.createElement('div');
+				div.id = 'not_exists';
+				div.innerHTML = 'User does not exist';
+				document.getElementById('result').appendChild(div);
+         }
    		if(xmlhttp.status == 200) {
 				callback(xmlhttp.responseText);
          }
