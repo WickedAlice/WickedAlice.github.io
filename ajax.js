@@ -7,12 +7,12 @@ window.onload = function() {
 	elem.addEventListener( "click", function(e){
 		DisplayGitHubUserData();
 		e.preventDefault();
-		return false;
 	});
+	deleteOldUserFields();
 }
 
 function DisplayGitHubUserData() {
-	username = document.getElementById('a').value;
+	var username = document.getElementById('a').value;
 	if (!document.getElementById('sp_email')) {
 		createTags();
 	}
@@ -20,8 +20,6 @@ function DisplayGitHubUserData() {
 	if ( exists = document.getElementById('not_exists')) {
 		document.getElementById('result').removeChild(exists);
 	}
-
-	deleteOldUserFields();
 
 	var infoFields = getUserFieldsFromCache('info_' + username);
   	if(!infoFields) {
@@ -95,18 +93,16 @@ function getUserFieldsFromCache(fieldsKey) {
 }
 
 function storeFieldsToCache(fieldsKey, userFields) {
-	var today = Date.now();
-	userFields['timeout'] = today;
+	userFields['timeout'] = Date.now();
 	localStorage.setItem(fieldsKey, JSON.stringify(userFields)); 
 }
 
 function parseInfo(respond) {
-
 	var tmp;
 	var infoFields = {};
-	var fieldsList = {'login':{cutFromEnd:2,cutFromBegin:9},
-							 'email':{cutFromEnd:2,cutFromBegin:9},
-							 'followers':{cutFromEnd:1,cutFromBegin:12}};
+	var fieldsList = {'login': 1,
+							 'email': 1,
+							 'followers': 1};
 
 	for(var fieldName in fieldsList) {
 		var field = JSON.parse(respond);
@@ -127,7 +123,7 @@ function parseRepos(respond) {
 	var repos = JSON.parse(respond);
 	if(!repos) { return; }	
 
-	for ( key in repos ) {
+	for ( var key in repos ) {
 		repoList[i++] = repos[key].name;
 	}
 
@@ -135,7 +131,7 @@ function parseRepos(respond) {
 }
 
 function	displayReposFields(reposFields) {
-	var reposList;
+	var reposList, reposTag;
 	if(!reposFields) {
 		reposList = "No public repos";
 	}
@@ -147,7 +143,6 @@ function	displayReposFields(reposFields) {
 }	
 
 function	displayInfoFields(infoFields) {
-
 	delete infoFields['timeout'];
 	var fieldsList = {'login':{field: 'Login'},
 							 'email':{field: 'Email'},
@@ -179,7 +174,7 @@ function getXmlHttp(){
 
 function xmlRequest(url, callback) {
 	var xmlhttp = getXmlHttp();
-	xmlhttp.open('GET', url, true);
+	xmlhttp.open('GET', url);
 	xmlhttp.onreadystatechange = function() {
   		if (xmlhttp.readyState == 4) {
    		if (xmlhttp.status == 404 && ( !document.getElementById('not_exists'))) {
@@ -200,6 +195,6 @@ function xmlRequest(url, callback) {
          }
   		}
 	};
-	xmlhttp.send(null);
+	xmlhttp.send();
 }
 
