@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <title> </title>
-        <link rel="stylesheet" type="text/css" href="ajax.css">
-			<script src="ajax.js" ></script>
-    </head>
-	<body>
-		<div id="wrapper">
-			<form method="post">
-				Поиск юзера:<br>
-				<TEXTAREA COLS=30 ROWS=1 id='a' >gurugray</TEXTAREA>
-				<INPUT TYPE=SUBMIT id="search_button">
-			</form> 
-			<div id="result"></div>
-		</div>
-	</body>
-
+<head>
+    <meta charset=utf-8>
+    <title>Приложение для отображения фотографий пользователя Вконтакте</title>
+	<script type="text/javascript" src="http://vk.com/js/api/openapi.js?122"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="jquery-dateFormat.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        Для отображения ваших альбомов необходимо авторизироваться ВК
+    </header>
+    <div id="vk_auth"></div>
+</body>
 </html>

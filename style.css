@@ -1,0 +1,250 @@
+@font-face {
+    font-family: 'ProximaNova-Bold';
+    src: url('fonts/ProximaNova-Bold-webfont.eot');
+    src: url('fonts/ProximaNova-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/ProximaNova-Bold-webfont.woff2') format('woff2'),
+         url('fonts/ProximaNova-Bold-webfont.woff') format('woff'),
+         url('fonts/ProximaNova-Bold-webfont.ttf') format('truetype'),
+         url('fonts/ProximaNova-Bold-webfont.svg#proxima_nova_rgbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'ProximaNova-Regular';
+    src: url('fonts/ProximaNova-Reg-webfont.eot');
+    src: url('fonts/ProximaNova-Reg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/ProximaNova-Reg-webfont.woff2') format('woff2'),
+         url('fonts/ProximaNova-Reg-webfont.woff') format('woff'),
+         url('fonts/ProximaNova-Reg-webfont.ttf') format('truetype'),
+         url('fonts/ProximaNova-Reg-webfont.svg#proxima_nova_rgregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+	font-family: 'ProximaNova-Regular';
+	margin: 20px auto;
+}
+
+header {
+	text-align: center;
+}
+
+#vk_auth {
+	margin: 40px auto;
+}
+
+.album_preview_container {
+	max-width: 600px;
+	margin: auto;
+}
+
+.nav_panel {
+	padding-left: 10px;
+	font-family: 'ProximaNova-Bold';
+	margin: 0 0 7px 0;
+	color: #898989;
+	display: flex;
+	align-items: flex-end;
+}
+
+.album_preview {
+	margin: 0;
+	display: flex;
+	background-color: #f6f6f6;
+	border-top: 2px solid #e1e1e1;
+	padding: 10px 10px 10px 30px;
+}
+
+.album_preview ~ .album_preview {
+	border-top: 1px solid #e1e1e1;
+}
+
+[class~='album_preview']:last-of-type {
+	border-bottom: 2px solid #e1e1e1;
+}
+
+.album_preview:hover {
+	cursor: pointer;
+	background-color: #e1e1e1;
+}
+
+.album_thumb { 
+	background: 50% 50% no-repeat;
+	width: 50px;
+	height: 50px;
+}
+
+.album_description {
+    margin: 0 0 0 10px;
+}
+
+.album_title {
+	color: #2079d7;
+	font-weight: bold;
+	margin-bottom: 2px;
+}
+
+.album_count, .album_date {
+	color: #9f9f9f;
+	font-size: 0.8em;
+}
+
+.album_count::before {
+	background-image: url('img/doc.png');
+	background-size: 11px;
+	display: inline-block;
+	width: 11px; 
+	height: 11px;
+	content:"";
+	margin-right: 3px;
+}
+
+.album_date::before {
+	background-image: url('img/clock.png');
+	background-size: 11px;
+	display: inline-block;
+	width: 11px; 
+	height: 11px;
+	content:"";
+	margin-right: 3px;
+}
+
+.album_arrow {
+	font-size: 2em;
+	font-weight: bold;
+	color: #2079d7;
+	display: flex;
+	margin-left: auto;
+	margin-top: -0.15em;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.album_list_button {
+	font-size: 1.8em;
+	font-weight: bold;
+	font-family: monospace;
+	color: #a0a0a0;
+}
+
+.album_list_button:hover {
+	cursor: pointer;
+}
+
+.nav_panel .album_title {
+	margin-left: 5px;
+	color: #a0a0a0;
+}
+
+.underline {
+	border-bottom: 1px solid #a0a0a0;
+}
+
+.thumbs_container {
+	display: flex;
+	position: relative;
+	flex-wrap: wrap;
+	margin: 0 10px;
+}
+
+.image_thumb_container {
+	position: relative;
+	width: 100px;
+	height: 120px;
+	border-radius: 5px;
+	border: 1px solid #bfbfbf;
+	display: flex;
+	flex-direction: column;
+}
+
+.image_thumb {
+	background: 50% 50% no-repeat;
+	background-size: cover;
+	width: 100px;
+	height: 100px;
+	border-radius: 4px 4px 0 0;
+}
+
+.select_button {
+	font-size: 0.8em;
+	background-color: #ccc;
+	color: #2079d7;
+	align-self: flex-end;
+	width: 100%;
+	line-height: 20px;
+}
+
+.select_button:hover {
+	cursor: pointer;
+}
+
+.select_button_text {
+	text-decoration: underline;
+}
+
+.select_button_check_mark {
+	font-weight: bold;
+    display: inline-flex;
+    padding: 0 1px 0 2px;
+}
+
+.tooltip_container {
+	z-index: 1000;
+	display: flex;
+	visibility: hidden;
+	top: 130px;
+	padding: 10px;  
+	position: absolute;
+	color: #FFFFFF;
+	background: #000000;
+	border-radius: 5px;
+	font-size: 0.7em;
+	min-width: 80px;
+	max-width: 200px;
+}
+
+.image_thumb:hover + .tooltip_container {
+	visibility: visible;
+}
+
+.tooltip_container:after {
+	content: '';
+	position: absolute;
+	bottom: 100%;
+	left: 50px;
+	margin-left: -8px;
+	width: 0; height: 0;
+	border-bottom: 8px solid #000000;
+	border-right: 8px solid transparent;
+	border-left: 8px solid transparent;
+}
+
+.tooltip_right {
+	right: 0;
+}
+
+.tooltip_right:after {
+	left: auto;
+	right: 50px;
+}
+
+.single_photo_container > img {
+	margin: 10px 80px;
+}
+
+@media handheld {
+	.single_photo_container > img {
+		margin: 5px 0;
+	}
+}
+
+.single_photo_description {
+	margin-left: 10px;
+}
+
+.single_photo_description span:first-child {
+	font-family: 'ProximaNova-Bold';
+}
