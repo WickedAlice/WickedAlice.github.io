@@ -1,5 +1,7 @@
 {
-  "title": "blabla",
-  "image": "https://s3.amazonaws.com/cdn.cryptohopper.com/images/documentation/exploref/automatic-trading/ch_dollar_cost_averaging.png",
-  "text": "blabla blabla blabla blabla"
+  "data" : {
+      "title": "blabla",
+      "image": "https://s3.amazonaws.com/cdn.cryptohopper.com/images/documentation/exploref/automatic-trading/ch_dollar_cost_averaging.png",
+      "text": "blabla blabla blabla blabla"
+  }
 }
