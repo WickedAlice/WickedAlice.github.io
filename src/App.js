@@ -1,24 +1,37 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import { getData } from './getData';
+import Banner from './Banner';
 import './App.css';
 
-function App() {
+const API_DATA_LINK = 'https://wickedalice.github.io/data.json';
+const TARGET_LINK = 'https://intelligence.weforum.org';
+
+function App({id, lang, layout}) {
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    getData(API_DATA_LINK, {id, lang})
+      .then(({ data }) => {
+        setData(data)
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <a className="Banner"
+       href={TARGET_LINK}
+       target="_blank"
+       rel="noopener noreferrer">
+      {isLoading
+        ? <div className="Banner-loader"/>
+        : <Banner layout={layout} data={data}/>
+      }
+    </a>
+
   );
 }
 
